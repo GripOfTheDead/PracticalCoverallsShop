@@ -1,0 +1,581 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище CoverallsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategoryItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="NameProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataOrder" Type="date" />
+          <Property Name="DataManufacture" Type="date" />
+          <Property Name="UserInfoID" Type="int" />
+          <Property Name="StatusOrderId" Type="int" />
+        </EntityType>
+        <EntityType Name="OrderHasProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="ProductArticlNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ArticleNumber" />
+          </Key>
+          <Property Name="ArticleNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameId" Type="int" />
+          <Property Name="CurrentDiscount" Type="int" />
+          <Property Name="CategoryItemId" Type="int" />
+          <Property Name="CountProductStock" Type="int" />
+          <Property Name="Discription" Type="nvarchar" MaxLength="250" />
+          <Property Name="Size" Type="nvarchar" MaxLength="20" />
+          <Property Name="Prise" Type="money" />
+        </EntityType>
+        <EntityType Name="StatusOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserInfoId" Type="int" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserInfoId" />
+          </Key>
+          <Property Name="UserInfoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserSurname" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserPatronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="int" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="FK__Order__StatusOrd__76969D2E">
+          <End Role="StatusOrder" Type="Self.StatusOrder" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__UserInfoI__75A278F5">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserInfoId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderHasP__Order__01142BA1">
+          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="OrderHasProduct" Type="Self.OrderHasProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderHasProduct">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderHasP__Produ__02084FDA">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="OrderHasProduct" Type="Self.OrderHasProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ArticleNumber" />
+            </Principal>
+            <Dependent Role="OrderHasProduct">
+              <PropertyRef Name="ProductArticlNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__Categor__7E37BEF6">
+          <End Role="CategoryItem" Type="Self.CategoryItem" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__NameId__7D439ABD">
+          <End Role="NameProduct" Type="Self.NameProduct" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NameProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="NameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User__RoleId__619B8048">
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User__UserInfoId__60A75C0F">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserInfoId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="UserInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище CoverallsModelContainer">
+          <EntitySet Name="CategoryItem" EntityType="Self.CategoryItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NameProduct" EntityType="Self.NameProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderHasProduct" EntityType="Self.OrderHasProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusOrder" EntityType="Self.StatusOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Order__StatusOrd__76969D2E" Association="Self.FK__Order__StatusOrd__76969D2E">
+            <End Role="StatusOrder" EntitySet="StatusOrder" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__UserInfoI__75A278F5" Association="Self.FK__Order__UserInfoI__75A278F5">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderHasP__Order__01142BA1" Association="Self.FK__OrderHasP__Order__01142BA1">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderHasProduct" EntitySet="OrderHasProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderHasP__Produ__02084FDA" Association="Self.FK__OrderHasP__Produ__02084FDA">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="OrderHasProduct" EntitySet="OrderHasProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__Categor__7E37BEF6" Association="Self.FK__Product__Categor__7E37BEF6">
+            <End Role="CategoryItem" EntitySet="CategoryItem" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__NameId__7D439ABD" Association="Self.FK__Product__NameId__7D439ABD">
+            <End Role="NameProduct" EntitySet="NameProduct" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User__RoleId__619B8048" Association="Self.FK__User__RoleId__619B8048">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User__UserInfoId__60A75C0F" Association="Self.FK__User__UserInfoId__60A75C0F">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CoverallsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserInfoId" Type="Int32" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="UserRole" Relationship="Self.FK__User__RoleId__619B8048" FromRole="User" ToRole="UserRole" />
+          <NavigationProperty Name="UserInfo" Relationship="Self.FK__User__UserInfoId__60A75C0F" FromRole="User" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserInfoId" />
+          </Key>
+          <Property Name="UserInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserPatronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK__User__UserInfoId__60A75C0F" FromRole="UserInfo" ToRole="User" />
+          <NavigationProperty Name="Order" Relationship="CoverallsModel.FK__Order__UserInfoI__75A278F5" FromRole="UserInfo" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.FK__User__RoleId__619B8048" FromRole="UserRole" ToRole="User" />
+        </EntityType>
+        <Association Name="FK__User__RoleId__619B8048">
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User__UserInfoId__60A75C0F">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserInfoId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="UserInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CoverallsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" />
+          <AssociationSet Name="FK__User__RoleId__619B8048" Association="Self.FK__User__RoleId__619B8048">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User__UserInfoId__60A75C0F" Association="Self.FK__User__UserInfoId__60A75C0F">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <EntitySet Name="CategoryItem" EntityType="CoverallsModel.CategoryItem" />
+          <EntitySet Name="NameProduct" EntityType="CoverallsModel.NameProduct" />
+          <EntitySet Name="Order" EntityType="CoverallsModel.Order" />
+          <EntitySet Name="OrderHasProduct" EntityType="CoverallsModel.OrderHasProduct" />
+          <EntitySet Name="Product" EntityType="CoverallsModel.Product" />
+          <EntitySet Name="StatusOrder" EntityType="CoverallsModel.StatusOrder" />
+          <AssociationSet Name="FK__Product__Categor__7E37BEF6" Association="CoverallsModel.FK__Product__Categor__7E37BEF6">
+            <End Role="CategoryItem" EntitySet="CategoryItem" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__NameId__7D439ABD" Association="CoverallsModel.FK__Product__NameId__7D439ABD">
+            <End Role="NameProduct" EntitySet="NameProduct" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__StatusOrd__76969D2E" Association="CoverallsModel.FK__Order__StatusOrd__76969D2E">
+            <End Role="StatusOrder" EntitySet="StatusOrder" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__UserInfoI__75A278F5" Association="CoverallsModel.FK__Order__UserInfoI__75A278F5">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderHasP__Order__01142BA1" Association="CoverallsModel.FK__OrderHasP__Order__01142BA1">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderHasProduct" EntitySet="OrderHasProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderHasP__Produ__02084FDA" Association="CoverallsModel.FK__OrderHasP__Produ__02084FDA">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="OrderHasProduct" EntitySet="OrderHasProduct" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CategoryItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="CoverallsModel.FK__Product__Categor__7E37BEF6" FromRole="CategoryItem" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="NameProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="CoverallsModel.FK__Product__NameId__7D439ABD" FromRole="NameProduct" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataOrder" Type="DateTime" Precision="0" />
+          <Property Name="DataManufacture" Type="DateTime" Precision="0" />
+          <Property Name="UserInfoID" Type="Int32" />
+          <Property Name="StatusOrderId" Type="Int32" />
+          <NavigationProperty Name="StatusOrder" Relationship="CoverallsModel.FK__Order__StatusOrd__76969D2E" FromRole="Order" ToRole="StatusOrder" />
+          <NavigationProperty Name="UserInfo" Relationship="CoverallsModel.FK__Order__UserInfoI__75A278F5" FromRole="Order" ToRole="UserInfo" />
+          <NavigationProperty Name="OrderHasProduct" Relationship="CoverallsModel.FK__OrderHasP__Order__01142BA1" FromRole="Order" ToRole="OrderHasProduct" />
+        </EntityType>
+        <EntityType Name="OrderHasProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="ProductArticlNumber" Type="Int32" />
+          <NavigationProperty Name="Order" Relationship="CoverallsModel.FK__OrderHasP__Order__01142BA1" FromRole="OrderHasProduct" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="CoverallsModel.FK__OrderHasP__Produ__02084FDA" FromRole="OrderHasProduct" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ArticleNumber" />
+          </Key>
+          <Property Name="ArticleNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameId" Type="Int32" />
+          <Property Name="CurrentDiscount" Type="Int32" />
+          <Property Name="CategoryItemId" Type="Int32" />
+          <Property Name="CountProductStock" Type="Int32" />
+          <Property Name="Discription" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CategoryItem" Relationship="CoverallsModel.FK__Product__Categor__7E37BEF6" FromRole="Product" ToRole="CategoryItem" />
+          <NavigationProperty Name="NameProduct" Relationship="CoverallsModel.FK__Product__NameId__7D439ABD" FromRole="Product" ToRole="NameProduct" />
+          <NavigationProperty Name="OrderHasProduct" Relationship="CoverallsModel.FK__OrderHasP__Produ__02084FDA" FromRole="Product" ToRole="OrderHasProduct" />
+          <Property Name="Prise" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="StatusOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="CoverallsModel.FK__Order__StatusOrd__76969D2E" FromRole="StatusOrder" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK__Product__Categor__7E37BEF6">
+          <End Type="CoverallsModel.CategoryItem" Role="CategoryItem" Multiplicity="0..1" />
+          <End Type="CoverallsModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__NameId__7D439ABD">
+          <End Type="CoverallsModel.NameProduct" Role="NameProduct" Multiplicity="0..1" />
+          <End Type="CoverallsModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NameProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="NameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__StatusOrd__76969D2E">
+          <End Type="CoverallsModel.StatusOrder" Role="StatusOrder" Multiplicity="0..1" />
+          <End Type="CoverallsModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__UserInfoI__75A278F5">
+          <End Type="CoverallsModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+          <End Type="CoverallsModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserInfoId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderHasP__Order__01142BA1">
+          <End Type="CoverallsModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="CoverallsModel.OrderHasProduct" Role="OrderHasProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderHasProduct">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderHasP__Produ__02084FDA">
+          <End Type="CoverallsModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="CoverallsModel.OrderHasProduct" Role="OrderHasProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ArticleNumber" />
+            </Principal>
+            <Dependent Role="OrderHasProduct">
+              <PropertyRef Name="ProductArticlNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CoverallsModelContainer" CdmEntityContainer="CoverallsEntities">
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="CoverallsModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserInfoId" ColumnName="UserInfoId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="CoverallsModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="UserInfoId" ColumnName="UserInfoId" />
+                <ScalarProperty Name="UserSurname" ColumnName="UserSurname" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPatronymic" ColumnName="UserPatronymic" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRole">
+            <EntityTypeMapping TypeName="CoverallsModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryItem">
+            <EntityTypeMapping TypeName="CoverallsModel.CategoryItem">
+              <MappingFragment StoreEntitySet="CategoryItem">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NameProduct">
+            <EntityTypeMapping TypeName="CoverallsModel.NameProduct">
+              <MappingFragment StoreEntitySet="NameProduct">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="CoverallsModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="StatusOrderId" ColumnName="StatusOrderId" />
+                <ScalarProperty Name="UserInfoID" ColumnName="UserInfoID" />
+                <ScalarProperty Name="DataManufacture" ColumnName="DataManufacture" />
+                <ScalarProperty Name="DataOrder" ColumnName="DataOrder" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderHasProduct">
+            <EntityTypeMapping TypeName="CoverallsModel.OrderHasProduct">
+              <MappingFragment StoreEntitySet="OrderHasProduct">
+                <ScalarProperty Name="ProductArticlNumber" ColumnName="ProductArticlNumber" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="CoverallsModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Prise" ColumnName="Prise" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Discription" ColumnName="Discription" />
+                <ScalarProperty Name="CountProductStock" ColumnName="CountProductStock" />
+                <ScalarProperty Name="CategoryItemId" ColumnName="CategoryItemId" />
+                <ScalarProperty Name="CurrentDiscount" ColumnName="CurrentDiscount" />
+                <ScalarProperty Name="NameId" ColumnName="NameId" />
+                <ScalarProperty Name="ArticleNumber" ColumnName="ArticleNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusOrder">
+            <EntityTypeMapping TypeName="CoverallsModel.StatusOrder">
+              <MappingFragment StoreEntitySet="StatusOrder">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

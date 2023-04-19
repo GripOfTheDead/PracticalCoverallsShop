@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4bf20e16b213445c996e435507cf0536" Name="Diagram1" ZoomLevel="96">
+        <EntityTypeShape EntityType="CoverallsModel.User" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoverallsModel.UserInfo" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoverallsModel.UserRole" Width="1.5" PointX="5.625" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="CoverallsModel.FK__User__RoleId__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="CoverallsModel.FK__User__UserInfoId__60A75C0F" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CoverallsModel.CategoryItem" Width="1.5" PointX="3.375" PointY="5.625" />
+        <EntityTypeShape EntityType="CoverallsModel.NameProduct" Width="1.5" PointX="7.5" PointY="2.875" />
+        <EntityTypeShape EntityType="CoverallsModel.Order" Width="1.5" PointX="0.875" PointY="7.75" />
+        <EntityTypeShape EntityType="CoverallsModel.OrderHasProduct" Width="1.5" PointX="7.875" PointY="5.5" />
+        <EntityTypeShape EntityType="CoverallsModel.Product" Width="1.5" PointX="5.625" PointY="5" />
+        <EntityTypeShape EntityType="CoverallsModel.StatusOrder" Width="1.5" PointX="3.375" PointY="11.625" />
+        <AssociationConnector Association="CoverallsModel.FK__Product__Categor__7E37BEF6" />
+        <AssociationConnector Association="CoverallsModel.FK__Product__NameId__7D439ABD" />
+        <AssociationConnector Association="CoverallsModel.FK__Order__StatusOrd__76969D2E" />
+        <AssociationConnector Association="CoverallsModel.FK__Order__UserInfoI__75A278F5" />
+        <AssociationConnector Association="CoverallsModel.FK__OrderHasP__Order__01142BA1" />
+        <AssociationConnector Association="CoverallsModel.FK__OrderHasP__Produ__02084FDA" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
